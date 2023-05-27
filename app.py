@@ -56,7 +56,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_id = event.source.userId
+    user_id = event.source.user_id
     save_user_id(user_id)
     
     message = event.message.text
