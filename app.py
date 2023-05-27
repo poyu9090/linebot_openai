@@ -21,14 +21,14 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
-def save_user_id(user_id):
+def save_user_id(userId):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
 
     # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
     sql = "INSERT INTO test (id) VALUES (%s)"
-    cursor.execute(sql, (user_id,))
+    cursor.execute(sql, (userId,))
 
     # 提交變更
     conn.commit()
