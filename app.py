@@ -21,7 +21,7 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
-def save_user_id(userId):
+def save_user_id(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
