@@ -28,7 +28,7 @@ def save_user_id(user_id):
 
     # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
     sql = "INSERT INTO test (user_id) VALUES (%s)"
-    cursor.execute(sql, (user_id))
+    cursor.execute(sql, (user_id,))
 
     # 提交變更
     conn.commit()
