@@ -1,3 +1,4 @@
+import mysql.connector
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -11,6 +12,30 @@ channel_access_token = "2i1ezDbaoDHmdVvIlfhnwVZxINI2ziI1Dwk00TIy9TB38XfkBXe/FZr+
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+
+# 資料庫連線設定
+db_config = {
+    "host": "localhost",
+    "user": "your_username",
+    "password": "your_password",
+    "database": "your_database"
+}
+
+def save_user_id(user_id):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
+    sql = "INSERT INTO user (id) VALUES (%s)"
+    cursor.execute(sql, (user_id,))
+
+    # 提交變更
+    conn.commit()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
 
 @app.route("/", methods=["GET"])
 def index():
@@ -31,6 +56,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    user_id = event.source.user_id
+    save_user_id(user_id)
+    
     message = event.message.text
     line_bot_api.reply_message(
         event.reply_token,
