@@ -28,7 +28,7 @@ def save_user_id(userId):
 
     # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
     sql = "INSERT INTO test (id) VALUES (%s)"
-    cursor.execute(sql, (userId,))
+    cursor.execute(sql, (user_id))
 
     # 提交變更
     conn.commit()
@@ -56,7 +56,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_id = event.source.user_id
+    user_id = event.source.userId
     save_user_id(user_id)
     
     message = event.message.text
