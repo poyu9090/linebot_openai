@@ -15,10 +15,10 @@ handler = WebhookHandler(channel_secret)
 
 # 資料庫連線設定
 db_config = {
-    "host": "localhost",
-    "user": "your_username",
-    "password": "your_password",
-    "database": "your_database"
+    "host": "taytzyylong.com",
+    "user": "u266927754_poyu9090",
+    "password": "jjooee9090",
+    "database": "u266927754_poyu"
 }
 
 def save_user_id(user_id):
@@ -27,7 +27,7 @@ def save_user_id(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
-    sql = "INSERT INTO user (id) VALUES (%s)"
+    sql = "INSERT INTO test (id) VALUES (%s)"
     cursor.execute(sql, (user_id,))
 
     # 提交變更
