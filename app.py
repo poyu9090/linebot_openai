@@ -21,6 +21,24 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
+def check_user_id_exists(user_id):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，查詢資料庫中是否已存在該 user_id
+    sql = "SELECT * FROM test WHERE user_id = %s"
+    cursor.execute(sql, (user_id,))
+
+    # 檢查是否有查詢到結果
+    exists = cursor.fetchone() is not None
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
+    return exists
+
 def save_user_id(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
@@ -55,15 +73,4 @@ def callback():
     return "OK"
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    user_id = event.source.user_id
-    save_user_id(user_id)
-    
-    message = event.message.text
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message)
-    )
-
-if __name__ == "__main__":
-    app.run()
+def
