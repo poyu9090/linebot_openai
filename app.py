@@ -73,4 +73,17 @@ def callback():
     return "OK"
 
 @handler.add(MessageEvent, message=TextMessage)
-def
+def handle_message(event):
+    user_id = event.source.user_id
+
+    if not check_user_id_exists(user_id):
+        save_user_id(user_id)
+
+    message = event.message.text
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=message)
+    )
+
+if __name__ == "__main__":
+    app.run()
