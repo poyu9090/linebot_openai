@@ -15,7 +15,7 @@ handler = WebhookHandler(channel_secret)
 
 # 資料庫連線設定
 db_config = {
-    "host": "taytzyylong.com",
+    "host": "taytzyylong.comm",
     "user": "u266927754_poyu9090",
     "password": "Jjooee9090!",
     "database": "u266927754_poyu"
