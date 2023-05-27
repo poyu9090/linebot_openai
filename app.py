@@ -16,9 +16,9 @@ handler = WebhookHandler(channel_secret)
 # 資料庫連線設定
 db_config = {
     "host": "217.21.74.1",
-    "user": "u266927754_test123",
+    "user": "u266927754_poyu9090",
     "password": "Jjooee9090!",
-    "database": "u266927754_test123"
+    "database": "u266927754_poyu"
 }
 
 def save_user_id(user_id):
