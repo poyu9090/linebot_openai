@@ -21,24 +21,6 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
-def check_user_id_exists(user_id):
-    # 連線到資料庫
-    conn = mysql.connector.connect(**db_config)
-    cursor = conn.cursor()
-
-    # 執行 SQL 命令，查詢資料庫中是否已存在該 user_id
-    sql = "SELECT * FROM test WHERE user_id = %s"
-    cursor.execute(sql, (user_id,))
-
-    # 檢查是否有查詢到結果
-    exists = cursor.fetchone() is not None
-
-    # 關閉連線
-    cursor.close()
-    conn.close()
-
-    return exists
-
 def save_user_id(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
@@ -47,6 +29,22 @@ def save_user_id(user_id):
     # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
     sql = "INSERT INTO test (user_id) VALUES (%s)"
     cursor.execute(sql, (user_id,))
+
+    # 提交變更
+    conn.commit()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
+def save_user_data(user_id, data):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，更新資料庫中對應的使用者資料
+    sql = "UPDATE user_data SET data = %s WHERE user_id = %s"
+    cursor.execute(sql, (data, user_id))
 
     # 提交變更
     conn.commit()
@@ -75,15 +73,19 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.user_id
-
-    if not check_user_id_exists(user_id):
-        save_user_id(user_id)
-
     message = event.message.text
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message)
-    )
+
+    if message == "找房條件":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="請輸入找房條件")
+        )
+    else:
+        save_user_data(user_id, message)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="已記錄您的找房條件")
+        )
 
 if __name__ == "__main__":
     app.run()
