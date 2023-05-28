@@ -58,6 +58,38 @@ def save_user_keywords(user_id, data):
     cursor.close()
     conn.close()
 
+def check_user_exists(user_id):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
+    sql = "SELECT user_id FROM test WHERE user_id = %s"
+    cursor.execute(sql, (user_id,))
+    result = cursor.fetchone()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
+    return bool(result)
+
+def save_user_id(user_id):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，將 user_id 新增到資料庫
+    sql = "INSERT INTO test (user_id) VALUES (%s)"
+    cursor.execute(sql, (user_id,))
+
+    # 提交變更
+    conn.commit()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
 @app.route("/", methods=["GET"])
 def index():
     return "Hello, this is your Line Bot!"
@@ -66,18 +98,23 @@ def index():
 def callback():
     signature = request.headers["X-Line-Signature"]
     body = request.get_data(as_text=True)
-    
+
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-    
+
     return "OK"
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.user_id
     message = event.message.text
+
+    # 檢查 user_id 是否存在於資料庫中
+    if not check_user_exists(user_id):
+        # 若不存在，新增 user_id 到資料庫
+        save_user_id(user_id)
 
     if message == "找房條件":
         keywords = check_user_keywords(user_id)
@@ -112,6 +149,6 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text="請輸入有效指令")
             )
-            
+
 if __name__ == "__main__":
     app.run()
