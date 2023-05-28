@@ -64,7 +64,7 @@ def check_user_state(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
-    sql = "SELECT keywords FROM test WHERE user_id = %s"
+    sql = "SELECT sate FROM test WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
     result = cursor.fetchone()
 
@@ -73,7 +73,7 @@ def check_user_state(user_id):
     conn.close()
 
     if result:
-        # 如果有資料，返回該使用者的找房條件
+        # 如果有資料，返回該使用者的狀態
         return result[0]
     else:
         # 如果沒有資料，返回空字串
@@ -161,9 +161,9 @@ def handle_message(event):
                 TextSendMessage(text=f"您目前的找房條件是：{keywords} \n 需要更新找房條件請輸入『更新找房資料』")
             )
         else:
+            save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
-                save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
                 TextSendMessage(text="請輸入找房條件")
             )
     elif message == "更新找房資料":
@@ -180,13 +180,18 @@ def handle_message(event):
             save_user_keywords(user_id, message)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="已更新您的找房條件")
+                TextSendMessage(text=f"已更新您的找房條件：{message}")
             )
         elif state == "首次輸入找房條件":
+            save_user_keywords(user_id, message)
             line_bot_api.reply_message(
-                save_user_keywords(user_id, message)
                 event.reply_token,
-                TextSendMessage(text="已經紀錄你的找房條件 \n {message}")
+                TextSendMessage(text=f"已儲存您的找房條件：{message}")
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入有效指令")
             )
 
 if __name__ == "__main__":
