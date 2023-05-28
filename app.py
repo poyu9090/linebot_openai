@@ -21,21 +21,26 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
-def save_user_id(user_id):
+def check_user_data(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
 
-    # 執行 SQL 命令，將 user_id 插入到資料庫的 user 表中的 id 欄位
-    sql = "INSERT INTO test (user_id) VALUES (%s)"
+    # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
+    sql = "SELECT keywords FROM test WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
-
-    # 提交變更
-    conn.commit()
+    result = cursor.fetchone()
 
     # 關閉連線
     cursor.close()
     conn.close()
+
+    if result:
+        # 如果有資料，返回該使用者的找房條件
+        return result[0]
+    else:
+        # 如果沒有資料，返回空字串
+        return ""
 
 def save_user_data(user_id, data):
     # 連線到資料庫
@@ -57,7 +62,6 @@ def save_user_data(user_id, data):
 def index():
     return "Hello, this is your Line Bot!"
 
-
 @app.route("/callback", methods=["POST"])
 def callback():
     signature = request.headers["X-Line-Signature"]
@@ -76,10 +80,17 @@ def handle_message(event):
     message = event.message.text
 
     if message == "找房條件":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="請輸入找房條件")
-        )
+        keywords = check_user_data(user_id)
+        if keywords:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=f"您目前的找房條件是：{keywords}")
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入找房條件")
+            )
     else:
         save_user_data(user_id, message)
         line_bot_api.reply_message(
