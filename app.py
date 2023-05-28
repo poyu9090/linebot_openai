@@ -128,6 +128,31 @@ def save_user_id(user_id):
     conn.close()
     
 def search_post(user_id):
+    group_name1 = '464870710346711'
+    group_name2 = '459966811445588'
+    keywords = check_user_keywords(user_id)
+    
+    if not keywords:
+        line_bot_api.push_message(user_id, TextSendMessage(text="你需要先設定 keywords 喔"))
+        return
+    
+    # 搜尋社團一的貼文，並逐一檢查每個貼文
+    print(f'-----------開始從社團一開始找-----------')
+    
+    for post in get_posts(group="group_id", pages=3, cookies='cookies.txt'):
+        post_id = post['post_id']
+        post_text = post['text']
+        if any(keyword in post_text for keyword in keywords):  # 如果这个帖子包含指定的关键字
+            message = f"找到符合条件的贴文囉！:\n{post['post_url']}\n{post['text'][:300]}"
+            try:
+                line_bot_api.push_message(user_id, TextSendMessage(text=message))
+                post_time = post['time']
+                print(f'找到贴文了，贴文时间：{post_time}')
+            except LineBotApiError as e:
+                print(f'Line Bot发送消息失败: {e.error.message}')
+        else:
+            print(f'贴文无关键字，所以不发送')
+        time.sleep(10)  # 等待 10 秒钟，以避免被 Facebook 检测为机器人
 
     
 @app.route("/", methods=["GET"])
@@ -177,6 +202,14 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="請輸入新的找房條件")
         )
+        
+    elif message == "開始找房":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="系統正開始幫妳找房請稍等")
+         search_post(user_id)
+        )
+        
     else:
         state = check_user_state(user_id)
         if state == "更新找房資料":
