@@ -43,7 +43,7 @@ def save_user_data(user_id, data):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，更新資料庫中對應的使用者資料
-    sql = "UPDATE user_data SET data = %s WHERE user_id = %s"
+    sql = "UPDATE user_data SET keywords = %s WHERE user_id = %s"
     cursor.execute(sql, (data, user_id))
 
     # 提交變更
