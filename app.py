@@ -172,6 +172,33 @@ def search_post(user_id):
 def index():
     return "Hello, this is your Line Bot!"
 
+@app.route("/update_database", methods=["POST"])
+def update_database():
+    group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
+    posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
+
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    for post in posts:
+        post_time = post['time']
+        post_url = post['post_url']
+        post_content = post['text']
+
+        # 執行 SQL 命令，將貼文資訊插入資料庫
+        sql = "INSERT INTO post_data (post_time, post_url, post_content) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (post_time, post_url, post_content))
+
+    # 提交變更
+    conn.commit()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
+    return "OK"
+
 @app.route("/callback", methods=["POST"])
 def callback():
     signature = request.headers["X-Line-Signature"]
