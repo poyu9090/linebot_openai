@@ -137,7 +137,11 @@ def search_post(user_id):
     for post in posts:
         post_time = post['time']
         post_times.append(post_time)
-
+        
+        # 检查是否已收集到10个post_time，若是则跳出循环
+        if len(post_times) == 10:
+            break
+    
     return post_times
     
 @app.route("/", methods=["GET"])
@@ -221,4 +225,4 @@ def handle_message(event):
             )
 
 if __name__ == "__main__":
-    app.run()
+    app.run(timeout=60)
