@@ -57,6 +57,43 @@ def save_user_keywords(user_id, data):
     # 關閉連線
     cursor.close()
     conn.close()
+ 
+def check_user_sate(user_id):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
+    sql = "SELECT keywords FROM test WHERE user_id = %s"
+    cursor.execute(sql, (user_id,))
+    result = cursor.fetchone()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
+
+    if result:
+        # 如果有資料，返回該使用者的找房條件
+        return result[0]
+    else:
+        # 如果沒有資料，返回空字串
+        return ""
+
+def save_user_state(user_id, data):
+    # 連線到資料庫
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 執行 SQL 命令，更新資料庫中對應的使用者資料
+    sql = "UPDATE test SET sate = %s WHERE user_id = %s"
+    cursor.execute(sql, (data, user_id))
+
+    # 提交變更
+    conn.commit()
+
+    # 關閉連線
+    cursor.close()
+    conn.close()
 
 def check_user_exists(user_id):
     # 連線到資料庫
@@ -126,10 +163,11 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token,
+                save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
                 TextSendMessage(text="請輸入找房條件")
             )
     elif message == "更新找房資料":
-        save_user_keywords(user_id, message)  # 先儲存用戶的回傳訊息
+        save_user_state(user_id, "更新找房資料")  # 先儲存用戶的回傳訊息
 
         # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
@@ -137,17 +175,18 @@ def handle_message(event):
             TextSendMessage(text="請輸入新的找房條件")
         )
     else:
-        keywords = check_user_keywords(user_id)
-        if keywords == "更新找房資料":
+        state = check_user_state(user_id)
+        if state == "更新找房資料":
             save_user_keywords(user_id, message)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="已更新您的找房條件")
             )
-        else:
+        elif state == "首次輸入找房條件":
             line_bot_api.reply_message(
+                save_user_keywords(user_id, message)
                 event.reply_token,
-                TextSendMessage(text="請輸入有效指令")
+                TextSendMessage(text="已經紀錄你的找房條件 \n {message}")
             )
 
 if __name__ == "__main__":
