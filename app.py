@@ -139,7 +139,7 @@ def search_post(user_id):
     # 搜尋社團一的貼文，並逐一檢查每個貼文
     print(f'-----------開始從社團一開始找-----------')
     
-    for post in get_posts(group="group_id", pages=3, cookies='cookies.txt'):
+    for post in get_posts(group="group_name1", pages=3, cookies='cookies.txt'):
         post_id = post['post_id']
         post_text = post['text']
         if any(keyword in post_text for keyword in keywords):  # 如果这个帖子包含指定的关键字
