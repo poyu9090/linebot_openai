@@ -64,7 +64,7 @@ def check_user_state(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
-    sql = "SELECT sate FROM test WHERE user_id = %s"
+    sql = "SELECT state FROM test WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
     result = cursor.fetchone()
 
@@ -85,7 +85,7 @@ def save_user_state(user_id, data):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，更新資料庫中對應的使用者資料
-    sql = "UPDATE test SET sate = %s WHERE user_id = %s"
+    sql = "UPDATE test SET state = %s WHERE user_id = %s"
     cursor.execute(sql, (data, user_id))
 
     # 提交變更
