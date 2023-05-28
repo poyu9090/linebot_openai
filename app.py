@@ -21,7 +21,7 @@ db_config = {
     "database": "u266927754_poyu"
 }
 
-def check_user_data(user_id):
+def check_user_keywords(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
@@ -42,7 +42,7 @@ def check_user_data(user_id):
         # 如果沒有資料，返回空字串
         return ""
 
-def save_user_data(user_id, data):
+def save_user_keywords(user_id, data):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
@@ -80,7 +80,7 @@ def handle_message(event):
     message = event.message.text
 
     if message == "找房條件":
-        keywords = check_user_data(user_id)
+        keywords = check_user_keywords(user_id)
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -92,7 +92,7 @@ def handle_message(event):
                 TextSendMessage(text="請輸入找房條件")
             )
     elif message == "更新找房資料":
-        save_user_data(user_id, message)  # 先儲存用戶的回傳訊息
+        save_user_keywords(user_id, message)  # 先儲存用戶的回傳訊息
 
         # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
@@ -100,9 +100,9 @@ def handle_message(event):
             TextSendMessage(text="請輸入新的找房條件")
         )
     else:
-        keywords = check_user_data(user_id)
+        keywords = check_user_keywords(user_id)
         if keywords == "更新找房資料":
-            save_user_data(user_id, message)
+            save_user_keywords(user_id, message)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="已更新您的找房條件")
