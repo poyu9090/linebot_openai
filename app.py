@@ -172,7 +172,7 @@ def search_post(user_id):
 def index():
     return "Hello, this is your Line Bot!"
 
-@app.route("/update_database", methods=["POST"])
+@app.route("/update_database", methods=["GET"])
 def update_database():
     group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
     posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
