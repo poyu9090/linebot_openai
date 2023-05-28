@@ -84,19 +84,34 @@ def handle_message(event):
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"您目前的找房條件是：{keywords}")
+                TextSendMessage(text=f"您目前的找房條件是：{keywords} \n 需要更新找房條件請輸入『更新找房資料』")
             )
         else:
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="請輸入找房條件")
             )
-    else:
-        save_user_data(user_id, message)
+    elif message == "更新找房資料":
+        save_user_data(user_id, message)  # 先儲存用戶的回傳訊息
+
+        # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="已記錄您的找房條件")
+            TextSendMessage(text="請輸入新的找房條件")
         )
-
+    else:
+        keywords = check_user_data(user_id)
+        if keywords == "更新找房資料":
+            save_user_data(user_id, message)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="已更新您的找房條件")
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入有效指令")
+            )
+            
 if __name__ == "__main__":
     app.run()
