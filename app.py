@@ -138,24 +138,32 @@ def search_post(user_id):
     if not keywords:
         line_bot_api.push_message(user_id, TextSendMessage(text="你需要先設定 keywords 喔"))
         return
-    
+
     # 搜尋社團一的貼文，並逐一檢查每個貼文
     print(f'-----------開始從社團一開始找-----------')
-    
+
+    found_posts = []  # 存储找到的帖子
     for post in get_posts(group=group_name1, pages=3, cookies='cookies.txt'):
         post_id = post['post_id']
         post_text = post['text']
         if any(keyword in post_text for keyword in keywords):  # 如果这个帖子包含指定的关键字
+            found_posts.append(post)  # 将符合条件的帖子添加到列表中
+
+    if found_posts:
+        messages = []
+        for post in found_posts:
             message = f"找到符合条件的贴文囉！:\n{post['post_url']}\n{post['text'][:300]}"
-            try:
-                line_bot_api.push_message(user_id, TextSendMessage(text=message))
-                post_time = post['time']
-                print(f'找到贴文了，贴文时间：{post_time}')
-            except LineBotApiError as e:
-                print(f'Line Bot发送消息失败: {e.error.message}')
-        else:
-            print(f'贴文无关键字，所以不发送')
-        time.sleep(3)  # 等待 10 秒钟，以避免被 Facebook 检测为机器人
+            messages.append(TextSendMessage(text=message))
+
+        try:
+            line_bot_api.reply_message(user_id, messages)  # 一次性发送所有帖子消息
+            print(f'找到{len(found_posts)}篇贴文')
+        except LineBotApiError as e:
+            print(f'Line Bot发送消息失败: {e.error.message}')
+    else:
+        print(f'未找到符合条件的贴文')
+
+    time.sleep(3)  # 等待 3 秒钟，以避免被 Facebook 检测为机器人
 
     
 @app.route("/", methods=["GET"])
