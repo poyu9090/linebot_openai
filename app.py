@@ -58,7 +58,7 @@ def save_user_keywords(user_id, data):
     cursor.close()
     conn.close()
  
-def check_user_sate(user_id):
+def check_user_state(user_id):
     # 連線到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
