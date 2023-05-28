@@ -207,9 +207,9 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="系統正開始幫妳找房請稍等")
-         search_post(user_id)
         )
-        
+        search_post(user_id)
+
     else:
         state = check_user_state(user_id)
         if state == "更新找房資料":
