@@ -126,7 +126,10 @@ def save_user_id(user_id):
     # 關閉連線
     cursor.close()
     conn.close()
+    
+def search_post(user_id):
 
+    
 @app.route("/", methods=["GET"])
 def index():
     return "Hello, this is your Line Bot!"
