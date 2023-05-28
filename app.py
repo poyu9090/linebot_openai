@@ -130,50 +130,6 @@ def save_user_id(user_id):
     conn.close()
     
 def search_post(user_id):
-    group_name1 = '464870710346711'
-    group_name2 = '459966811445588'
-    keywords = check_user_keywords(user_id)
-    print(f"keywords{keywords}")
-
-    if not keywords:
-        line_bot_api.push_message(user_id, TextSendMessage(text="你需要先設定 keywords 喔"))
-        return
-
-    # 搜尋社團一的貼文，並逐一檢查每個貼文
-    print(f'-----------開始從社團一開始找-----------')
-
-    found_posts = []  # 存储找到的帖子
-    for post in get_posts(group=group_name1, pages=3, cookies='cookies.txt'):
-        post_id = post['post_id']
-        post_text = post['text']
-        print(f"儲存貼文中:{post_id}")
-        #if any(keyword in post_text for keyword in keywords):  # 如果这个帖子包含指定的关键字
-            #found_posts.append(post)  # 将符合条件的帖子添加到列表中
-
-    if found_posts:
-        messages = []
-        for post in found_posts:
-            message = f"找到符合条件的贴文囉！:\n{post['post_url']}\n{post['text'][:300]}"
-            messages.append(TextSendMessage(text=message))
-
-        try:
-            line_bot_api.reply_message(user_id, messages)  # 一次性发送所有帖子消息
-            print(f'找到{len(found_posts)}篇贴文')
-            
-        except LineBotApiError as e:
-            print(f'Line Bot发送消息失败: {e.error.message}')
-    else:
-        print(f'未找到符合条件的贴文')
-
-    time.sleep(3)  # 等待 3 秒钟，以避免被 Facebook 检测为机器人
-
-    
-@app.route("/", methods=["GET"])
-def index():
-    return "Hello, this is your Line Bot!"
-
-@app.route("/update_database", methods=["POST"])
-def update_database():
     group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
     posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
 
@@ -197,8 +153,10 @@ def update_database():
     # 關閉連線
     #cursor.close()
     #conn.close()
-
-    return "OK"
+    
+@app.route("/", methods=["GET"])
+def index():
+    return "Hello, this is your Line Bot!"
 
 @app.route("/callback", methods=["POST"])
 def callback():
