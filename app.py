@@ -155,7 +155,7 @@ def search_post(user_id):
                 print(f'Line Bot发送消息失败: {e.error.message}')
         else:
             print(f'贴文无关键字，所以不发送')
-        time.sleep(10)  # 等待 10 秒钟，以避免被 Facebook 检测为机器人
+        time.sleep(3)  # 等待 10 秒钟，以避免被 Facebook 检测为机器人
 
     
 @app.route("/", methods=["GET"])
