@@ -135,6 +135,7 @@ def search_post(user_id):
     keywords=check_user_keywords(user_id)
     for post in get_posts(group=group_name, pages=1,cookies='cookies.txt'):
         post_id = post['post_id']
+        post_text = post['post_text']
         if any(keyword in post_text for keyword in keywords):  # 如果這個貼文包含指定的關鍵字
            message = f"找到符合條件的貼文囉！:\n{post['post_url']}\n{post['text'][:300]}"
            post_time = post['time']
