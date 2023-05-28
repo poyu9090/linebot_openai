@@ -141,8 +141,7 @@ def search_post(user_id):
            print(f'找到貼文了，貼文時間：{post_times}')
         else:
             print(f'貼文無關鍵字，所以不發送')
-    return
-        post_times
+    return post_times
     
 @app.route("/", methods=["GET"])
 def index():
