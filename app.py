@@ -132,9 +132,10 @@ def save_user_id(user_id):
 def search_post(user_id):
     group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
     post_times = []
+    keywords=check_user_keywords(user_id)
     for post in get_posts(group=group_name, pages=1,cookies='cookies.txt'):
         post_id = post['post_id']
-        if all(keyword in post_text for keyword in keywords):  # 如果這個貼文包含指定的關鍵字
+        if any(keyword in post_text for keyword in keywords):  # 如果這個貼文包含指定的關鍵字
            message = f"找到符合條件的貼文囉！:\n{post['post_url']}\n{post['text'][:300]}"
            post_time = post['time']
            post_times.append(post_time)
