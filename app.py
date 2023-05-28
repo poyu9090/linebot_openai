@@ -148,6 +148,7 @@ def search_post(user_id):
         post_text = post['text']
         if any(keyword in post_text for keyword in keywords):  # 如果这个帖子包含指定的关键字
             found_posts.append(post)  # 将符合条件的帖子添加到列表中
+            print(f"儲存貼文中:{post_id}")
 
     if found_posts:
         messages = []
@@ -158,6 +159,7 @@ def search_post(user_id):
         try:
             line_bot_api.reply_message(user_id, messages)  # 一次性发送所有帖子消息
             print(f'找到{len(found_posts)}篇贴文')
+            
         except LineBotApiError as e:
             print(f'Line Bot发送消息失败: {e.error.message}')
     else:
