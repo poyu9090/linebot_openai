@@ -131,7 +131,8 @@ def search_post(user_id):
     group_name1 = '464870710346711'
     group_name2 = '459966811445588'
     keywords = check_user_keywords(user_id)
-    
+    print(f"keywords{keywords}")
+
     if not keywords:
         line_bot_api.push_message(user_id, TextSendMessage(text="你需要先設定 keywords 喔"))
         return
