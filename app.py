@@ -178,24 +178,25 @@ def update_database():
     posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
 
     # 連線到資料庫
-    conn = mysql.connector.connect(**db_config)
-    cursor = conn.cursor()
+    #conn = mysql.connector.connect(**db_config)
+    #cursor = conn.cursor()
 
     for post in posts:
         post_time = post['time']
         post_url = post['post_url']
         post_content = post['text']
+        print(post_time)
 
         # 執行 SQL 命令，將貼文資訊插入資料庫
-        sql = "INSERT INTO post_data (post_time, post_url, post_content) VALUES (%s, %s, %s)"
-        cursor.execute(sql, (post_time, post_url, post_content))
+        #sql = "INSERT INTO post_data (post_time, post_url, post_content) VALUES (%s, %s, %s)"
+        #cursor.execute(sql, (post_time, post_url, post_content))
 
     # 提交變更
-    conn.commit()
+    #conn.commit()
 
     # 關閉連線
-    cursor.close()
-    conn.close()
+    #cursor.close()
+    #conn.close()
 
     return "OK"
 
