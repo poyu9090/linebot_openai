@@ -133,26 +133,12 @@ def search_post(user_id):
     group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
     posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
 
-    # 連線到資料庫
-    #conn = mysql.connector.connect(**db_config)
-    #cursor = conn.cursor()
-
+    post_times = []
     for post in posts:
         post_time = post['time']
-        post_url = post['post_url']
-        post_content = post['text']
-        print(post_time)
+        post_times.append(post_time)
 
-        # 執行 SQL 命令，將貼文資訊插入資料庫
-        #sql = "INSERT INTO post_data (post_time, post_url, post_content) VALUES (%s, %s, %s)"
-        #cursor.execute(sql, (post_time, post_url, post_content))
-
-    # 提交變更
-    #conn.commit()
-
-    # 關閉連線
-    #cursor.close()
-    #conn.close()
+    return post_times
     
 @app.route("/", methods=["GET"])
 def index():
@@ -207,7 +193,12 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="系統正開始幫妳找房請稍等")
         )
-        search_post(user_id)
+        post_times = search_post(user_id)
+        for post_time in post_times:
+            line_bot_api.push_message(
+                user_id,
+                TextSendMessage(text=post_time)
+            )
 
     else:
         state = check_user_state(user_id)
