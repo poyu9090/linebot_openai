@@ -131,18 +131,18 @@ def save_user_id(user_id):
     
 def search_post(user_id):
     group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
-    posts = get_posts(group=group_name, pages=3, cookies='cookies.txt')  # 根據需求設定擷取的頁數
-
     post_times = []
-    for post in posts:
-        post_time = post['time']
-        post_times.append(post_time)
-        
-        # 检查是否已收集到10个post_time，若是则跳出循环
-        if len(post_times) == 10:
-            break
-    
-    return post_times
+    for post in get_posts(group=group_name, pages=1,cookies='cookies.txt'):
+        post_id = post['post_id']
+        if all(keyword in post_text for keyword in keywords):  # 如果這個貼文包含指定的關鍵字
+           message = f"找到符合條件的貼文囉！:\n{post['post_url']}\n{post['text'][:300]}"
+           post_time = post['time']
+           post_times.append(post_time)
+           print(f'找到貼文了，貼文時間：{post_times}')
+        else:
+            print(f'貼文無關鍵字，所以不發送')
+    return
+        post_times
     
 @app.route("/", methods=["GET"])
 def index():
@@ -225,4 +225,4 @@ def handle_message(event):
             )
 
 if __name__ == "__main__":
-    app.run(timeout=60)
+    app.run()
