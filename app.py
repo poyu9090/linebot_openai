@@ -140,8 +140,8 @@ def search_post(user_id):
     cursor = conn.cursor()
 
     # 創建包含關鍵字的查詢語句
-    sql = "SELECT content FROM post WHERE content LIKE CONCAT('%', %s, '%') "
-    sql += "OR content LIKE CONCAT('%', %s, '%') " * (len(keywords) - 1)
+    sql = "SELECT content FROM post_data WHERE post_content LIKE CONCAT('%', %s, '%') "
+    sql += "OR post_content LIKE CONCAT('%', %s, '%') " * (len(keywords) - 1)
     
 
     # 執行 SQL 查詢
