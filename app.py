@@ -130,20 +130,39 @@ def save_user_id(user_id):
     conn.close()
     
 def search_post(user_id):
-    group_name = '464870710346711'  # 替換為你要擷取貼文的社團ID
-    post_times = []
-    keywords=check_user_keywords(user_id)
-    for post in get_posts(group=group_name, pages=1,cookies='cookies.txt'):
-        post_id = post['post_id']
-        post_text = post['post_text']
-        if any(keyword in post_text for keyword in keywords):  # 如果這個貼文包含指定的關鍵字
-           message = f"找到符合條件的貼文囉！:\n{post['post_url']}\n{post['text'][:300]}"
-           post_time = post['time']
-           post_times.append(post_time)
-           print(f'找到貼文了，貼文時間：{post_times}')
-        else:
-            print(f'貼文無關鍵字，所以不發送')
-    return post_times
+    # 获取用户的关键词列表
+    keywords = check_user_keywords(user_id)
+    print(keyowrds)
+    # 连接到数据库
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    # 创建包含关键词的查询语句
+    sql = "SELECT content FROM post WHERE content LIKE CONCAT('%', %s, '%') "
+    sql += "OR content LIKE CONCAT('%', %s, '%') " * (len(keywords) - 1)
+
+    # 执行 SQL 查询
+    cursor.execute(sql, keywords)
+
+    results = cursor.fetchall()
+
+    # 关闭连接
+    cursor.close()
+    conn.close()
+
+    if results:
+        # 逐一发送查询结果
+        for result in results:
+            content = result[0]
+            line_bot_api.reply_message(
+                user_id,
+                TextSendMessage(text=content)
+            )
+    else:
+        line_bot_api.reply_message(
+            user_id,
+            TextSendMessage(text="找不到相关的文章")
+        )
     
 @app.route("/", methods=["GET"])
 def index():
@@ -194,16 +213,9 @@ def handle_message(event):
         )
         
     elif message == "開始找房":
-        #line_bot_api.reply_message(
-           #event.reply_token,
-            #TextSendMessage(text="系統正開始幫妳找房請稍等")
-        #)
-        post_times = search_post(user_id)
-        for post_time in post_times:
-            line_bot_api.push_message(
-                user_id,
-                TextSendMessage(text="系統正開始幫妳找房請稍等")
-            )
+       
+        search_post(user_id)
+    
 
     else:
         state = check_user_state(user_id)
