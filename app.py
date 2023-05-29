@@ -205,7 +205,7 @@ def handle_message(event):
         )
         
     elif message == "開始找房":
-        search_post(user_id)
+        results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
         for result in results:
             line_bot_api.push_message(user_id, TextSendMessage(text=result[0]))
             time.sleep(1)  # 等待一秒後再傳送下一條訊息
