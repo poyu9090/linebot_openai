@@ -130,39 +130,31 @@ def save_user_id(user_id):
     conn.close()
     
 def search_post(user_id):
-    # 获取用户的关键词列表
+    # 獲取使用者的關鍵字列表
     keywords = check_user_keywords(user_id)
+    keywords = keywords.split(',')  # 將關鍵字轉換為列表
     print(keywords)
-    # 连接到数据库
+
+    # 連接到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
 
-    # 创建包含关键词的查询语句
-    sql = "SELECT post_content FROM post_data WHERE post_content LIKE CONCAT('%', %s, '%') "
+    # 創建包含關鍵字的查詢語句
+    sql = "SELECT content FROM post WHERE content LIKE CONCAT('%', %s, '%') "
     sql += "OR content LIKE CONCAT('%', %s, '%') " * (len(keywords) - 1)
+    
 
-    # 执行 SQL 查询
-    cursor.execute(sql, keywords)
+    # 執行 SQL 查詢
+    cursor.execute(sql, tuple(keywords))  # 將關鍵字列表轉換為元組
 
     results = cursor.fetchall()
-
-    # 关闭连接
+    print(result)
+    # 關閉連線
     cursor.close()
     conn.close()
+    
+    return results
 
-    if results:
-        # 逐一发送查询结果
-        for result in results:
-            content = result[0]
-            line_bot_api.reply_message(
-                user_id,
-                TextSendMessage(text=content)
-            )
-    else:
-        line_bot_api.reply_message(
-            user_id,
-            TextSendMessage(text="找不到相关的文章")
-        )
     
 @app.route("/", methods=["GET"])
 def index():
