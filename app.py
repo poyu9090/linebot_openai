@@ -148,7 +148,7 @@ def search_post(user_id):
     cursor.execute(sql, tuple(keywords))  # 將關鍵字列表轉換為元組
 
     results = cursor.fetchall()
-    print(result)
+    print(results)
     # 關閉連線
     cursor.close()
     conn.close()
