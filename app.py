@@ -194,15 +194,15 @@ def handle_message(event):
         )
         
     elif message == "開始找房":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="系統正開始幫妳找房請稍等")
-        )
+        #line_bot_api.reply_message(
+           #event.reply_token,
+            #TextSendMessage(text="系統正開始幫妳找房請稍等")
+        #)
         post_times = search_post(user_id)
         for post_time in post_times:
             line_bot_api.push_message(
                 user_id,
-                TextSendMessage(text=post_time)
+                TextSendMessage(text="系統正開始幫妳找房請稍等")
             )
 
     else:
