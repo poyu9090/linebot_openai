@@ -20,7 +20,8 @@ db_config = {
     "host": "217.21.74.1",
     "user": "u266927754_poyu9090",
     "password": "Jjooee9090!",
-    "database": "u266927754_poyu"
+    "database": "u266927754_poyu",
+    "charset": "utf8mb4"
 }
 
 def check_user_keywords(user_id):
