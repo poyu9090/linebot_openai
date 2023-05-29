@@ -132,7 +132,7 @@ def save_user_id(user_id):
 def search_post(user_id):
     # 获取用户的关键词列表
     keywords = check_user_keywords(user_id)
-    print(keyowrds)
+    print(keywords)
     # 连接到数据库
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
