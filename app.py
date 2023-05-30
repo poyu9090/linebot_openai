@@ -155,7 +155,6 @@ def search_post(user_id):
     conn.close()
 
     return results
-
     
 @app.route("/", methods=["GET"])
 def index():
