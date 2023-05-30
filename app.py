@@ -140,10 +140,10 @@ def search_post(user_id):
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
 
-    # 創建包含關鍵字的查詢語句
-    sql = "SELECT post_content, post_time, post_link FROM post_data WHERE (post_content LIKE CONCAT('%', %s, '%') "
-    sql += "OR post_content LIKE CONCAT('%', %s, '%')) AND post_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH)"
-    sql += " ORDER BY post_time DESC" 
+    # 创建包含关键字的查询语句
+    placeholders = " OR post_content LIKE CONCAT('%', %s, '%') " * len(keywords)
+    sql = f"SELECT post_content, post_time, post_link FROM post_data WHERE {placeholders}"
+    sql += "AND post_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH) ORDER BY post_time DESC"
 
     # 執行 SQL 查詢
     cursor.execute(sql, tuple(keywords))  # 將關鍵字列表轉換為元組
