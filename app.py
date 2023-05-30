@@ -141,10 +141,9 @@ def search_post(user_id):
     cursor = conn.cursor()
 
     # 创建包含关键字的查询语句
-    placeholders = " OR post_content LIKE CONCAT('%', %s, '%') "
-    condition = " OR ".join([placeholders] * len(keywords))
-    sql = f"SELECT post_content, post_time, post_link FROM post_data WHERE {condition}"
-    sql += "AND post_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH) ORDER BY post_time DESC"
+    placeholders = "post_content LIKE CONCAT('%', %s, '%')" * len(keywords)
+    sql = f"SELECT post_content, post_time, post_link FROM post_data WHERE {' OR '.join(placeholders)}"
+    sql += " AND post_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH) ORDER BY post_time DESC"
 
     # 執行 SQL 查詢
     cursor.execute(sql, tuple(keywords))  # 將關鍵字列表轉換為元組
