@@ -141,9 +141,9 @@ def search_post(user_id):
     cursor = conn.cursor()
 
     # 創建包含關鍵字的查詢語句
-    sql = "SELECT post_content FROM post_data WHERE post_content LIKE CONCAT('%', %s, '%') "
-    sql += "OR post_content LIKE CONCAT('%', %s, '%') " * (len(keywords) - 1)
-    
+    sql = "SELECT post_content, post_time, post_link FROM post_data WHERE (post_content LIKE CONCAT('%', %s, '%') "
+    sql += "OR post_content LIKE CONCAT('%', %s, '%')) AND post_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH)"
+    sql += " ORDER BY post_time DESC" 
 
     # 執行 SQL 查詢
     cursor.execute(sql, tuple(keywords))  # 將關鍵字列表轉換為元組
@@ -153,7 +153,7 @@ def search_post(user_id):
     # 關閉連線
     cursor.close()
     conn.close()
-    
+
     return results
 
     
@@ -208,8 +208,9 @@ def handle_message(event):
     elif message == "開始找房":
         results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
         for result in results:
-            line_bot_api.push_message(user_id, TextSendMessage(text=result[0]))
-            time.sleep(1)  # 等待一秒後再傳送下一條訊息
+            message = f"貼文時間：{result[1]}\n貼文連結：{result[2]}\n貼文內容：{result[0]}"
+            line_bot_api.push_message(user_id, TextSendMessage(text=message))
+            time.sleep(3)  # 等待一秒後再傳送下一條訊息
     
     else:
         state = check_user_state(user_id)
