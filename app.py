@@ -5,6 +5,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from facebook_scraper import get_posts
 import time
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -141,14 +142,19 @@ def search_post(user_id):
     cursor = conn.cursor()
 
     # 創建包含關鍵字的查詢語句
-    sql = "SELECT post_content, post_link, post_time FROM post_data WHERE "
+    sql = "SELECT post_content, post_link, post_time FROM post_data WHERE post_time > %s AND ("
     for i in range(len(keywords)):
         if i != 0:
             sql += " OR "
         sql += "post_content LIKE %s"
+    sql += ")"
+
+    # 获取一周前的时间
+    week_ago = datetime.now() - timedelta(weeks=1)
+    week_ago_str = week_ago.strftime('%Y-%m-%d %H:%M:%S')
 
     # 執行 SQL 查詢
-    cursor.execute(sql, tuple(f"%{kw}%" for kw in keywords))
+    cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords))
 
     results = cursor.fetchall()
     print(results)
