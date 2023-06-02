@@ -195,49 +195,55 @@ def handle_message(event):
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"您目前的找房條件是：{keywords} \n 需要更新找房條件請輸入『更新找房資料』")
+                TextSendMessage(text=f"⭐您目前的找房條件是：{keywords} \n ⭐若需要更新找房條件請點擊下方設定按鈕或是輸入『更新找房條件』")
             )
         else:
-            save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
+            save_user_state(user_id, "⭐請輸入你的找房條件\n若需同時滿足複數關鍵字，請用逗號區隔\n⭐範例：台北，大安區，套房")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="請輸入找房條件")
             )
-    elif message == "更新找房資料":
-        save_user_state(user_id, "更新找房資料")  # 先儲存用戶的回傳訊息
+    elif message == "更新找房條件":
+        save_user_state(user_id, "更新找房條件")  # 先儲存用戶的回傳訊息
 
         # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="請輸入新的找房條件")
+            TextSendMessage(text="⭐請輸入新的找房條件\n若需同時滿足複數關鍵字，請用逗號區隔\n⭐範例：台北，大安區，套房")
         )
         
     elif message == "開始找房":
         results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
-        for result in results:
-            message = f"貼文時間：{result[1]}\n貼文連結：{result[2]}\n貼文內容：{result[0]}"
-            line_bot_api.push_message(user_id, TextSendMessage(text=message))
-            time.sleep(3)  # 等待一秒後再傳送下一條訊息
+        if not results:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="目前沒有完全符合條件的貼文，建議您更改關鍵字後再試試看😢")
+            )
+        else:
+            for result in results:
+                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
+                line_bot_api.push_message(user_id, TextSendMessage(text=message))
+                time.sleep(５)  # 等待一秒後再傳送下一條訊息
     
     else:
         state = check_user_state(user_id)
-        if state == "更新找房資料":
+        if state == "更新找房條件":
             save_user_keywords(user_id, message)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"已更新您的找房條件：{message}")
+                TextSendMessage(text=f"⭐已更新您的找房條件為：{message} \n ⭐可以點擊找房按鈕或是輸入「開始找房」來搜尋符合關鍵字的貼文囉👀~")
             )
         elif state == "首次輸入找房條件":
             save_user_keywords(user_id, message)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"已儲存您的找房條件：{message}")
+                TextSendMessage(text=f"⭐已儲存您的找房條件為：{message} \n ⭐可以點擊找房按鈕或是輸入「開始找房」來搜尋符合關鍵字的貼文囉👀~")
             )
         else:
-            line_bot_api.reply_message(
+            line_bot_api.reply_message
                 event.reply_token,
-                TextSendMessage(text="請輸入有效指令")
+                TextSendMessage(text="您可以試試看選單的按鈕功能 \n 或是手動輸入來操作 \n ⭐找房條件：查看目前設定找房貼文的關鍵字　\n　⭐更新找房條件：更新找房貼文的關鍵字　\n　⭐開始找房：根據設定的關鍵字幫您自動上網搜尋符合的貼文")
             )
 
 if __name__ == "__main__":
-    app.run(timeout=300)
+    app.run()
