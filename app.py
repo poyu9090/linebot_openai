@@ -254,7 +254,6 @@ def handle_message(event):
                         ]
                         
                     )                
-                TextSendMessage(text="沒有符合條件的貼文")
             )
         else:
             for result in results:
