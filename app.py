@@ -193,7 +193,7 @@ def handle_message(event):
         # 若不存在，新增 user_id 到資料庫
         save_user_id(user_id)
 
-    if message == "找房條件":
+    if message == "測試":
         keywords = check_user_keywords(user_id)
         if keywords:
             line_bot_api.reply_message(
