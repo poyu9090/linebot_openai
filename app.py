@@ -198,23 +198,7 @@ def handle_message(event):
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(
-                    alt_text="Buttons Template",
-                    template=ButtonsTemplate(
-                        title="找房條件",
-                        text="請選擇您要的操作",
-                        actions=[
-                            MessageTemplateAction(
-                                label="開始找房",
-                                text="開始找房"
-                            ),
-                            MessageTemplateAction(
-                                label="更新找房條件",
-                                text="更新找房條件"
-                            )
-                        ]
-                    )
-                )
+                TextSendMessage(text="測試")
             )
         else:
             save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
