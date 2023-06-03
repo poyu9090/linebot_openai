@@ -217,7 +217,7 @@ def handle_message(event):
                 )
             )
         else:
-            save_user_state(user_id, "⭐請輸入你的找房條件\n若需同時滿足複數關鍵字，請用逗號區隔\n⭐範例：台北，大安區，套房")  # 先儲存用戶的回傳訊息
+            save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="請輸入找房條件")
