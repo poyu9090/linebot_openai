@@ -34,7 +34,7 @@ def check_user_keywords(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
-    sql = "SELECT keywords FROM test WHERE user_id = %s"
+    sql = "SELECT keywords FROM user_data WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
     result = cursor.fetchone()
 
@@ -55,7 +55,7 @@ def save_user_keywords(user_id, data):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，更新資料庫中對應的使用者資料
-    sql = "UPDATE test SET keywords = %s, state = NULL WHERE user_id = %s"
+    sql = "UPDATE user_data SET keywords = %s, state = NULL WHERE user_id = %s"
     cursor.execute(sql, (data, user_id))
 
     # 提交變更
@@ -71,7 +71,7 @@ def check_user_state(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
-    sql = "SELECT state FROM test WHERE user_id = %s"
+    sql = "SELECT state FROM user_data WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
     result = cursor.fetchone()
 
@@ -92,7 +92,7 @@ def save_user_state(user_id, data):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，更新資料庫中對應的使用者資料
-    sql = "UPDATE test SET state = %s WHERE user_id = %s"
+    sql = "UPDATE user_data SET state = %s WHERE user_id = %s"
     cursor.execute(sql, (data, user_id))
 
     # 提交變更
@@ -108,7 +108,7 @@ def check_user_exists(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，查詢資料庫中是否有該使用者的資料
-    sql = "SELECT user_id FROM test WHERE user_id = %s"
+    sql = "SELECT user_id FROM user_data WHERE user_id = %s"
     cursor.execute(sql, (user_id,))
     result = cursor.fetchone()
 
@@ -124,7 +124,7 @@ def save_user_id(user_id):
     cursor = conn.cursor()
 
     # 執行 SQL 命令，將 user_id 新增到資料庫
-    sql = "INSERT INTO test (user_id) VALUES (%s)"
+    sql = "INSERT INTO user_data (user_id) VALUES (%s)"
     cursor.execute(sql, (user_id,))
 
     # 提交變更
