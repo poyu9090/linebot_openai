@@ -202,7 +202,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='我是 menu',
-                        text=f'我是text {keyowrds}',
+                        text=f'我是text {keywords}',
                         actions=[
                             MessageTemplateAction(
                                 label='我是 label',
