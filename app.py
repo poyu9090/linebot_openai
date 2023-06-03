@@ -209,8 +209,8 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='找房條件',
-                                text='找房條件'
+                                label='更新找房條件',
+                                text='更新找房條件'
                             )                            
                         ]
                         
@@ -233,6 +233,7 @@ def handle_message(event):
         )
         
     elif message == "開始找房":
+       keywords = check_user_keywords(user_id)
        results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
        if not results:
            line_bot_api.reply_message(
@@ -253,7 +254,7 @@ def handle_message(event):
                            )
                        ]
                    )
-               )  # 此處缺少一個括號
+               )  
            )
        else:
            for result in results:
