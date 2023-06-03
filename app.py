@@ -271,7 +271,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='找房條件',
-                        text=f'更新完成！\n\n 這是您目前設定的找房條件\n\n{keywords}',
+                        text=f'更新完成！\n\n這是您目前設定的找房條件\n\n{keywords}',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
@@ -280,10 +280,10 @@ def handle_message(event):
                             MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
-                            )                            
+                            )
                         ]
-                        
-                    )                
+                    )
+                )
             )
         elif state == "首次輸入找房條件":
             save_user_keywords(user_id, message)
@@ -308,7 +308,6 @@ def handle_message(event):
                                 text='客服服務'
                             )
                         ]
-
                     )
                 )
             )
