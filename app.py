@@ -193,7 +193,7 @@ def handle_message(event):
         # 若不存在，新增 user_id 到資料庫
         save_user_id(user_id)
 
-    if message == "測試":
+    if message == "找房條件":
         keywords = check_user_keywords(user_id)
         if keywords:
             line_bot_api.reply_message(
@@ -201,13 +201,17 @@ def handle_message(event):
                 TemplateSendMessage(
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
-                        title='我是 menu',
-                        text=f'我是text {keywords}',
+                        title='找房條件',
+                        text=f'這是你目前設定的找房條件\n\n{keywords}',
                         actions=[
                             MessageTemplateAction(
-                                label='我是 label',
-                                text='我是 text'
-                            )
+                                label='開始找房',
+                                text='開始找房'
+                            ),
+                            MessageTemplateAction(
+                                label='更新找房條件',
+                                text='更新找房條件'
+                            )                            
                         ]
                         
                     )
@@ -217,7 +221,7 @@ def handle_message(event):
             save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="請輸入找房條件")
+                TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：台北，大安區，套房")
             )
     elif message == "更新找房條件":
         save_user_state(user_id, "更新找房條件")  # 先儲存用戶的回傳訊息
