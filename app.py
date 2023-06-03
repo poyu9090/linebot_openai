@@ -198,7 +198,7 @@ def handle_message(event):
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(
+                TemplateSendMessage(
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='我是 menu',
