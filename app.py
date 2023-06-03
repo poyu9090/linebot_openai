@@ -209,9 +209,17 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
+                                label='找房條件',
+                                text='找房條件'
+                            ),
+                            MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
-                            )                            
+                            ),
+                            MessageTemplateAction(
+                                label='客服服務',
+                                text='客服服務'
+                            )   
                         ]
                         
                     )
@@ -251,6 +259,14 @@ def handle_message(event):
                            MessageTemplateAction(
                                label='找房條件',
                                text='找房條件'
+                           ),
+                           MessageTemplateAction(
+                               label='更新找房條件',
+                               text='更新找房條件'
+                           ),
+                           MessageTemplateAction(
+                               label='客服服務',
+                               text='客服服務'
                            )
                        ]
                    )
@@ -281,6 +297,14 @@ def handle_message(event):
                             MessageTemplateAction(
                                 label='找房條件',
                                 text='找房條件'
+                            ),
+                            MessageTemplateAction(
+                                label='更新找房條件',
+                                text='更新找房條件'
+                            ),
+                            MessageTemplateAction(
+                                label='客服服務',
+                                text='客服服務'
                             )
                         ]
                     )
@@ -303,6 +327,10 @@ def handle_message(event):
                             MessageTemplateAction(
                                 label='找房條件',
                                 text='找房條件'
+                            ),
+                            MessageTemplateAction(
+                                label='更新找房條件',
+                                text='更新找房條件'
                             ),
                             MessageTemplateAction(
                                 label='客服服務',
@@ -329,6 +357,10 @@ def handle_message(event):
                                 label='找房條件',
                                 text='找房條件'
                             ),
+                            MessageTemplateAction(
+                                label='更新找房服務',
+                                text='更新找房服務'
+                            ),   
                             MessageTemplateAction(
                                 label='客服服務',
                                 text='客服服務'
