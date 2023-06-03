@@ -200,7 +200,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(
                     alt_text='Buttons template',
-                    template=ButtonTemplate(
+                    template=ButtonsTemplate(
                         title='我是 menu',
                         text='我是text',
                         actions=[
