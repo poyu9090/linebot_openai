@@ -2,7 +2,10 @@ import mysql.connector
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
+    ButtonsTemplate, MessageTemplateAction
+)
 from facebook_scraper import get_posts
 import time
 from datetime import datetime, timedelta
@@ -195,7 +198,22 @@ def handle_message(event):
         if keywords:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"⭐您目前的找房條件是：{keywords} \n ⭐若需要更新找房條件請點擊下方設定按鈕或是輸入『更新找房條件』")
+                TextSendMessage(                    
+                    alt_text="Buttons Template",
+                    template=ButtonsTemplate(
+                        title="找房條件",
+                        text="請選擇您要的操作",
+                        actions=[
+                            MessageTemplateAction(
+                                label="開始找房",
+                                text="開始找房"
+                            ),
+                            MessageTemplateAction(
+                                label="更新找房條件",
+                                text="更新找房條件"
+                            )
+                        ]
+                    )
             )
         else:
             save_user_state(user_id, "⭐請輸入你的找房條件\n若需同時滿足複數關鍵字，請用逗號區隔\n⭐範例：台北，大安區，套房")  # 先儲存用戶的回傳訊息
