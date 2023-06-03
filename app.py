@@ -148,7 +148,7 @@ def search_post(user_id):
     sql = "SELECT post_content, post_link, post_time FROM post_data WHERE post_time > %s AND ("
     for i in range(len(keywords)):
         if i != 0:
-            sql += " OR "
+            sql += " AND "
         sql += "post_content LIKE %s"
     sql += ")"
 
@@ -209,8 +209,8 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='更新找房條件',
-                                text='更新找房條件'
+                                label='找房條件',
+                                text='找房條件'
                             )                            
                         ]
                         
@@ -248,8 +248,8 @@ def handle_message(event):
                                text='開始找房'
                            ),
                            MessageTemplateAction(
-                               label='更新找房條件',
-                               text='更新找房條件'
+                               label='找房條件',
+                               text='找房條件'
                            )
                        ]
                    )
@@ -278,8 +278,8 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='更新找房條件',
-                                text='更新找房條件'
+                                label='找房條件',
+                                text='找房條件'
                             )
                         ]
                     )
@@ -300,8 +300,8 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='更新找房條件',
-                                text='更新找房條件'
+                                label='找房條件',
+                                text='找房條件'
                             ),
                             MessageTemplateAction(
                                 label='客服服務',
@@ -325,8 +325,8 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='更新找房條件',
-                                text='更新找房條件'
+                                label='找房條件',
+                                text='找房條件'
                             ),
                             MessageTemplateAction(
                                 label='客服服務',
