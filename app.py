@@ -232,34 +232,34 @@ def handle_message(event):
             TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：台北,大安區,套房")
         )
         
-     elif message == "開始找房":
-        results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
-        if not results:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TemplateSendMessage(
-                    alt_text='Buttons template',
-                    template=ButtonsTemplate(
-                        title='很抱歉，目前沒有符合您關鍵字條件的貼文',
-                        text=f'建議您更改關鍵字條件，目前沒有完全符合的貼文\n\n這是你目前設定的找房條件\n\n{keywords}',
-                        actions=[
-                            MessageTemplateAction(
-                                label='開始找房',
-                                text='開始找房'
-                            ),
-                            MessageTemplateAction(
-                                label='更新找房條件',
-                                text='更新找房條件'
-                            )
-                        ]
-                    )
-                )  # 此處缺少一個括號
-            )
-        else:
-            for result in results:
-                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
-                line_bot_api.push_message(user_id, TextSendMessage(text=message))
-                time.sleep(3)  # 等待一秒後再傳送下一條訊息
+    elif message == "開始找房":
+       results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
+       if not results:
+           line_bot_api.reply_message(
+               event.reply_token,
+               TemplateSendMessage(
+                   alt_text='Buttons template',
+                   template=ButtonsTemplate(
+                       title='很抱歉，目前沒有符合您關鍵字條件的貼文',
+                       text=f'建議您更改關鍵字條件，目前沒有完全符合的貼文\n\n這是你目前設定的找房條件\n\n{keywords}',
+                       actions=[
+                           MessageTemplateAction(
+                               label='開始找房',
+                               text='開始找房'
+                           ),
+                           MessageTemplateAction(
+                               label='更新找房條件',
+                               text='更新找房條件'
+                           )
+                       ]
+                   )
+               )  # 此處缺少一個括號
+           )
+       else:
+           for result in results:
+               message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
+               line_bot_api.push_message(user_id, TextSendMessage(text=message))
+               time.sleep(3)  # 等待一秒後再傳送下一條訊息
     
     else:
         state = check_user_state(user_id)
