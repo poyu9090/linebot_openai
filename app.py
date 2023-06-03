@@ -4,7 +4,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
-    ButtonsTemplate, MessageTemplateAction, MessageTempalteAction
+    ButtonsTemplate, MessageTemplateAction, MessageTemplateAction
 )
 from facebook_scraper import get_posts
 import time
@@ -204,7 +204,7 @@ def handle_message(event):
                         title='我是 menu',
                         text='我是text',
                         actions=[
-                            MessageTempalteAction(
+                            MessageTemplateAction(
                                 label='我是 label',
                                 text='我是 text'
                             )
