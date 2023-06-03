@@ -4,7 +4,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
-    ButtonsTemplate, MessageTemplateAction
+    ButtonsTemplate, MessageTemplateAction, MessageTempalteAction
 )
 from facebook_scraper import get_posts
 import time
