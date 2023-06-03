@@ -305,10 +305,12 @@ def handle_message(event):
                             ),
                             MessageTemplateAction(
                                 label='客服服務',
-                                text='客服服務'                            
+                                text='客服服務'
+                            )
                         ]
-                        
+
                     )
+                )
             )
         else:
             line_bot_api.reply_message(
