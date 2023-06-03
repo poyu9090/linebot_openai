@@ -229,7 +229,7 @@ def handle_message(event):
         # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：台北,大安區,套房")
+            TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字\n\n請用半形的逗號做區隔\n\n⭐ 範例：台北,大安區,套房")
         )
         
     elif message == "開始找房":
@@ -271,7 +271,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='找房條件',
-                        text=f'更新完成！\n\n這是您目前設定的找房條件\n\n{keywords}',
+                        text=f'更新完成！\n\n這是您目前設定的找房條件\n\n{message}',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
@@ -293,7 +293,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='找房條件',
-                        text=f'設定完成！這是您目前設定的找房條件\n\n{keywords}',
+                        text=f'設定完成！這是您目前設定的找房條件\n\n{message}',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
@@ -318,7 +318,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         #title='找房條件',
-                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\nex.1.先設定找房條件\n\n2.點擊開始找房\n\n3.聯繫租屋者進行後續看房',
+                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
