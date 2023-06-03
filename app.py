@@ -232,7 +232,7 @@ def handle_message(event):
             TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：台北,大安區,套房")
         )
         
-    elif message == "開始找房":
+     elif message == "開始找房":
         results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
         if not results:
             line_bot_api.reply_message(
@@ -250,10 +250,10 @@ def handle_message(event):
                             MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
-                            )                            
+                            )
                         ]
-                        
-                    )                
+                    )
+                )  # 此處缺少一個括號
             )
         else:
             for result in results:
