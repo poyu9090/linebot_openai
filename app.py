@@ -235,11 +235,13 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字\n\n請用半形的逗號做區隔\n\n⭐ 範例：台北,大安區,套房")
         )
-    elif meesage =="聯絡我們"：
+        
+    elif message =="聯絡我們"：
         ine_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="如果您在使用的過程中有遇到任何異常，或是有什麼想對我們說的話\n\n您可以透過這個表單與我們聯繫\n\nhttps://docs.google.com/forms/d/e/1FAIpQLSfGW8O6O6mIM_dIe08Z53y4f45kHZbo_FRksoJfIkQxYugMjg/viewform")
         )
+        
     elif message == "開始找房":
        keywords = check_user_keywords(user_id)
        results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
