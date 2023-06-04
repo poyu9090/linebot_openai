@@ -229,7 +229,7 @@ def handle_message(event):
             save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：台北,大安區,套房")
+                TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例：大安區,套房")
             )
     elif message == "更新找房條件":
         save_user_state(user_id, "更新找房條件")  # 先儲存用戶的回傳訊息
@@ -250,7 +250,7 @@ def handle_message(event):
                    alt_text='Buttons template',
                    template=ButtonsTemplate(
                        title='很抱歉，目前沒有符合您關鍵字條件的貼文',
-                       text=f'建議您更改關鍵字條件，目前沒有完全符合的貼文\n\n這是你目前設定的找房條件\n\n{keywords}',
+                       text=f'建議您更改關鍵字條件，太多關鍵字可能導致找不到完全符合的貼文\n\n這是你目前設定的找房條件\n\n{keywords}',
                        actions=[
                            MessageTemplateAction(
                                label='開始找房',
@@ -277,6 +277,34 @@ def handle_message(event):
                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
                line_bot_api.push_message(user_id, TextSendMessage(text=message))
                time.sleep(3)  # 等待一秒後再傳送下一條訊息
+           line_bot_api.reply_message(
+               event.reply_token,
+               TemplateSendMessage(
+                   alt_text='Buttons template',
+                   template=ButtonsTemplate(
+                       title='已經搜尋完成',
+                       text=f'已經回傳完符合關鍵字『{keywords}』的貼文囉！\n\n你可以過一段時間再搜尋一次，或是『更新找房條件』再『開始找房』',
+                       actions=[
+                           MessageTemplateAction(
+                               label='開始找房',
+                               text='開始找房'
+                           ),
+                           MessageTemplateAction(
+                               label='找房條件',
+                               text='找房條件'
+                           ),
+                           MessageTemplateAction(
+                               label='更新找房條件',
+                               text='更新找房條件'
+                           ),
+                           MessageTemplateAction(
+                               label='客服服務',
+                               text='客服服務'
+                           )
+                       ]
+                   )
+               )  
+           )          
     
     else:
         state = check_user_state(user_id)
@@ -347,7 +375,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         #title='找房條件',
-                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！',
+                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\n提醒您先設定找房條件，再開始找房喔！',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
@@ -358,8 +386,8 @@ def handle_message(event):
                                 text='找房條件'
                             ),
                             MessageTemplateAction(
-                                label='更新找房服務',
-                                text='更新找房服務'
+                                label='更新找房條件',
+                                text='更新找房條件'
                             ),   
                             MessageTemplateAction(
                                 label='客服服務',
