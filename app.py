@@ -277,8 +277,8 @@ def handle_message(event):
                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
                line_bot_api.push_message(user_id, TextSendMessage(text=message))
                time.sleep(3)  # 等待一秒後再傳送下一條訊息
-           line_bot_api.reply_message(
-               event.reply_token,
+           line_bot_api.push_message(
+               user_id,
                TemplateSendMessage(
                    alt_text='Buttons template',
                    template=ButtonsTemplate(
@@ -375,7 +375,7 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         #title='找房條件',
-                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\n提醒您先設定找房條件，再開始找房喔！',
+                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\n提醒您先設定『找房條件』，再『開始找房』喔！',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
