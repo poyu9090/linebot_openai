@@ -209,10 +209,6 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='找房條件',
-                                text='找房條件'
-                            ),
-                            MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
                             ),
@@ -257,10 +253,6 @@ def handle_message(event):
                                text='開始找房'
                            ),
                            MessageTemplateAction(
-                               label='找房條件',
-                               text='找房條件'
-                           ),
-                           MessageTemplateAction(
                                label='更新找房條件',
                                text='更新找房條件'
                            ),
@@ -288,10 +280,6 @@ def handle_message(event):
                            MessageTemplateAction(
                                label='開始找房',
                                text='開始找房'
-                           ),
-                           MessageTemplateAction(
-                               label='找房條件',
-                               text='找房條件'
                            ),
                            MessageTemplateAction(
                                label='更新找房條件',
@@ -323,10 +311,6 @@ def handle_message(event):
                                 text='開始找房'
                             ),
                             MessageTemplateAction(
-                                label='找房條件',
-                                text='找房條件'
-                            ),
-                            MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
                             ),
@@ -346,15 +330,11 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='找房條件',
-                        text=f'設定完成！這是您目前設定的找房條件\n\n{message}',
+                        text=f'設定完成！這是您目前設定的找房條件\n\n{message}\n\n可以開始找房囉！',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
                                 text='開始找房'
-                            ),
-                            MessageTemplateAction(
-                                label='找房條件',
-                                text='找房條件'
                             ),
                             MessageTemplateAction(
                                 label='更新找房條件',
@@ -375,20 +355,16 @@ def handle_message(event):
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         #title='找房條件',
-                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\n提醒您先設定『找房條件』，再『開始找房』喔！',
+                        text='哈囉您好～\n\n您可以使用以下按鈕開始找房或是找租客的服務喔！\n\n提醒您先點擊或輸入『更新找房條件』，設定完成後再點擊或輸入『開始找房』喔！',
                         actions=[
-                            MessageTemplateAction(
-                                label='開始找房',
-                                text='開始找房'
-                            ),
-                            MessageTemplateAction(
-                                label='找房條件',
-                                text='找房條件'
-                            ),
                             MessageTemplateAction(
                                 label='更新找房條件',
                                 text='更新找房條件'
                             ),   
+                            MessageTemplateAction(
+                                label='開始找房',
+                                text='開始找房'
+                            ),
                             MessageTemplateAction(
                                 label='客服服務',
                                 text='客服服務'
