@@ -193,8 +193,10 @@ def fetch_and_insert_posts():
     #group5_id='464870710346711'
     
     recorded_post_ids = get_recorded_post_ids()
-    
-    for post in get_posts(group=group1_id, pages=1):
+
+    print(f'记录看过的 post_id{recorded_post_ids}')
+
+    for post in get_posts(group=group1_id, pages=1,cookies='cookies.txt'):
         post_id = post['post_id']
         
         if post_id in recorded_post_ids:
@@ -220,7 +222,7 @@ def fetch_and_insert_posts():
     print('第一個社團找完了~~~~~~~~~~~~~~~~~~~~')
     
     #------------------------------------
-    for post in get_posts(group=group2_id, pages=1):
+    for post in get_posts(group=group2_id, pages=1,cookies='cookies.txt'):
         post_id = post['post_id']
         
         if post_id in recorded_post_ids:
@@ -246,7 +248,7 @@ def fetch_and_insert_posts():
     print('第二個社團找完了~~~~~~~~~~~~~~~~~~~~')
     
     #------------------------------------
-    for post in get_posts(group=group3_id, pages=1):
+    for post in get_posts(group=group3_id, pages=1,cookies='cookies.txt'):
         post_id = post['post_id']
         
         if post_id in recorded_post_ids:
@@ -295,10 +297,9 @@ def fetch_and_insert_posts():
 @app.route('/trigger', methods=['POST'])
 def start_trigger():
     while True:
-        return '觸發成功1！'
         fetch_and_insert_posts()
-        return '觸發成功2！'
         time.sleep(600)  # 每 30 分鐘執行一次
+        return '觸發成功！'
 
 #@app.route('/trigger', methods=['POST'])
 #def trigger():
