@@ -292,15 +292,18 @@ def fetch_and_insert_posts():
     
     print('-----------更新完成資料庫-----------')
 
+@app.route('/trigger', methods=['POST'])
 def start_trigger():
     while True:
+        return '觸發成功1！'
         fetch_and_insert_posts()
+        return '觸發成功2！'
         time.sleep(600)  # 每 30 分鐘執行一次
 
-@app.route('/trigger', methods=['POST'])
-def trigger():
-    threading.Thread(target=start_trigger).start()
-    return '觸發成功！'
+#@app.route('/trigger', methods=['POST'])
+#def trigger():
+   # threading.Thread(target=start_trigger).start()
+    #return '觸發成功！'
 
 @app.route("/", methods=["GET"])
 def index():
