@@ -166,7 +166,139 @@ def search_post(user_id):
     conn.close()
 
     return results
+
+# 讀取已紀錄的 post_id
+def get_recorded_post_ids():
+    try:
+        with open("recorded_post_ids.txt", "r") as file:
+            return set(file.read().splitlines())
+    except FileNotFoundError:
+        return set()
+
+# 寫入已紀錄的 post_id
+def record_post_id(post_id):
+    with open("recorded_post_ids.txt", "a") as file:
+        file.write(post_id + "\n")
+
+def fetch_and_insert_posts():
+    group_post = []
     
+    group1_id='464870710346711'
+    group2_id='459966811445588'
+    group3_id='189793166068662'
+    #group4_id='464870710346711'
+    #group5_id='464870710346711'
+    
+    recorded_post_ids = get_recorded_post_ids()
+    
+    for post in get_posts(group=group1_id, pages=1):
+        post_id = post['post_id']
+        
+        if post_id in recorded_post_ids:
+            print(f'已紀錄過的 post_id，略過處理')
+            continue
+        
+        post_text = post['text']
+        post_time = post['time']
+        post_link = post['post_url']
+        
+        print(f'找到貼文了，貼文時間：{post_time}')
+        
+        post_data = {
+            'post_text': post_text,
+            'post_time': post_time,
+            'post_link': post_link
+        }
+        group_post.append(post_data)
+        record_post_id(post_id)
+    
+        time.sleep(10)
+    
+    print('第一個社團找完了~~~~~~~~~~~~~~~~~~~~')
+    
+    #------------------------------------
+    for post in get_posts(group=group2_id, pages=1):
+        post_id = post['post_id']
+        
+        if post_id in recorded_post_ids:
+            print(f'已紀錄過的 post_id，略過處理')
+            continue
+        
+        post_text = post['text']
+        post_time = post['time']
+        post_link = post['post_url']
+        
+        print(f'找到貼文了，貼文時間：{post_time}')
+        
+        post_data = {
+            'post_text': post_text,
+            'post_time': post_time,
+            'post_link': post_link
+        }
+        group_post.append(post_data)
+        record_post_id(post_id)
+    
+        time.sleep(10)
+    
+    print('第二個社團找完了~~~~~~~~~~~~~~~~~~~~')
+    
+    #------------------------------------
+    for post in get_posts(group=group3_id, pages=1):
+        post_id = post['post_id']
+        
+        if post_id in recorded_post_ids:
+            print(f'已紀錄過的 post_id，略過處理')
+            continue
+        
+        post_text = post['text']
+        post_time = post['time']
+        post_link = post['post_url']
+        
+        print(f'找到貼文了，貼文時間：{post_time}')
+        
+        post_data = {
+            'post_text': post_text,
+            'post_time': post_time,
+            'post_link': post_link
+        }
+        group_post.append(post_data)
+        record_post_id(post_id)
+    
+        time.sleep(10)
+    
+    print('第三個社團找完了~~~~~~~~~~~~~~~~~~~~')
+    
+    # 連接到資料庫
+    db = mysql.connector.connect(**db_config)
+    
+    # 建立游標物件
+    cursor = db.cursor()
+    
+    # 將資料插入資料庫
+    for post_data in group_post:
+        sql = "INSERT INTO post_data (post_content, post_time, post_link) VALUES (%s, %s, %s)"
+        values = (post_data['post_text'], post_data['post_time'], post_data['post_link'])
+        cursor.execute(sql, values)
+    
+    # 提交更改
+    db.commit()
+    
+    # 關閉游標和資料庫連線
+    cursor.close()
+    db.close()
+    
+    print('-----------更新完成資料庫-----------')
+
+def start_trigger():
+    while True:
+        fetch_and_insert_posts()
+        time.sleep(600)  # 每 30 分鐘執行一次
+
+@app.route('/trigger', methods=['POST'])
+def trigger():
+    threading.Thread(target=start_trigger).start()
+    return '觸發成功！'
+
 @app.route("/", methods=["GET"])
 def index():
     return "Hello, this is your Line Bot!"
