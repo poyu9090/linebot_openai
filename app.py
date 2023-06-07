@@ -391,7 +391,7 @@ def handle_message(event):
                    alt_text='Buttons template',
                    template=ButtonsTemplate(
                        title='很抱歉，目前沒有符合您關鍵字條件的貼文',
-                       text=f'建議您更改關鍵字條件，太多關鍵字可能導致找不到完全符合的貼文\n\n這是你目前設定的找房條件\n\n{keywords}',
+                       text=f'建議您更改關鍵字條件，太多關鍵字可能導致找不到完全符合的貼文',
                        actions=[
                            MessageTemplateAction(
                                label='開始找房',
