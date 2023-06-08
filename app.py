@@ -152,15 +152,16 @@ def search_post(user_id):
     for i in range(len(keywords)):
         if i != 0:
             sql += " AND "
-        sql += "post_content LIKE %s"
+        sql += "post_content LIKE %s AND post_content NOT LIKE %s"  # 添加了一个过滤条件
     sql += ")"
+
 
     # 获取一周前的时间
     week_ago = datetime.now() - timedelta(weeks=1)
     week_ago_str = week_ago.strftime('%Y-%m-%d %H:%M:%S')
 
     # 執行 SQL 查詢
-    cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords))
+    cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords) + tuple("%求租%" for _ in keywords))
 
     results = cursor.fetchall()
     print(results)
