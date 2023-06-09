@@ -413,7 +413,7 @@ def handle_message(event):
        else:
            for result in results:
                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
-                line_bot_api.reply_message(
+               line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text=message)
                 )
