@@ -413,14 +413,10 @@ def handle_message(event):
        else:
            for result in results:
                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
-               line_bot_api.reply_message(
-                   event.reply_token,
-                   TextSendMessage(text=message)
-               )
-               time.sleep(5)  # 等待一秒後再傳送下一條訊息
-
-           line_bot_api.reply_message(
-               event.reply_token,
+               line_bot_api.push_message(user_id, TextSendMessage(text=message))
+               time.sleep(3)  # 等待一秒後再傳送下一條訊息
+           line_bot_api.push_message(
+               user_id,
                TemplateSendMessage(
                    alt_text='Buttons template',
                    template=ButtonsTemplate(
