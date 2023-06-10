@@ -379,7 +379,7 @@ def handle_message(event):
     elif message == "聯絡我們":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="如果您在使用的過程中有遇到任何異常，或是有什麼想對我們說的話\n\n您可以透過這個表單與我們聯繫\n\nhttps://docs.google.com/forms/d/e/1FAIpQLSfGW8O6O6mIM_dIe08Z53y4f45kHZbo_FRksoJfIkQxYugMjg/viewform\n\n如過這個服務真的有幫助到您的話，您可以透過這個連結贊助我們一杯咖啡，不然 Line 發訊息真的好貴啊 🥺\nhttps://bmc.link/poyu9090")")
+            TextSendMessage(text="如果您在使用的過程中有遇到任何異常，或是有什麼想對我們說的話\n\n您可以透過這個表單與我們聯繫\n\nhttps://docs.google.com/forms/d/e/1FAIpQLSfGW8O6O6mIM_dIe08Z53y4f45kHZbo_FRksoJfIkQxYugMjg/viewform\n\n如過這個服務真的有幫助到您的話，您可以透過這個連結贊助我們一杯咖啡，不然 Line 發訊息真的好貴啊 🥺\nhttps://bmc.link/poyu9090")
         )
         
     elif message == "開始找房":
