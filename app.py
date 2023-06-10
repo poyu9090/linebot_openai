@@ -365,7 +365,7 @@ def handle_message(event):
             save_user_state(user_id, "首次輸入找房條件")  # 先儲存用戶的回傳訊息
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例 1：大安區,套房\n⭐ 範例 2：文湖線,兩房\n⭐ 範例 3：南京復興站"")
+                TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字，請用,區隔\n\n⭐ 範例 1：大安區,套房\n⭐ 範例 2：文湖線,兩房\n⭐ 範例 3：南京復興站")
             )
     elif message == "更新找房條件":
         save_user_state(user_id, "更新找房條件")  # 先儲存用戶的回傳訊息
@@ -373,7 +373,7 @@ def handle_message(event):
         # 再等待用戶的下一句回傳訊息
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字\n\n請用半形的逗號做區隔\n\n⭐ 範例 1：大安區,套房\n⭐ 範例 2：文湖線,兩房\n⭐ 範例 3：南京復興站"")
+            TextSendMessage(text="請輸入您的找房條件\n\n若要設定復數個關鍵字\n\n請用半形的逗號做區隔\n\n⭐ 範例 1：大安區,套房\n⭐ 範例 2：文湖線,兩房\n⭐ 範例 3：南京復興站")
         )
         
     elif message == "聯絡我們":
