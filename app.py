@@ -141,7 +141,7 @@ def search_post(user_id):
     # 獲取使用者的關鍵字列表
     keywords = check_user_keywords(user_id)
     keywords = keywords.split(',')  # 將關鍵字轉換為列表
-    print(keywords)
+    print(f'關鍵字{keywords}')
 
     # 連接到資料庫
     conn = mysql.connector.connect(**db_config)
@@ -163,7 +163,7 @@ def search_post(user_id):
     cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords) + tuple("%求租%" for _ in keywords))
 
     results = cursor.fetchall()
-    print(results)
+    #print(results)
     
     # 關閉連線
     cursor.close()
