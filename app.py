@@ -149,22 +149,22 @@ def search_post(user_id):
 
     # 創建包含關鍵字的查詢語句
     sql = "SELECT post_content, post_link, post_time FROM post_data WHERE post_time > %s AND ("
-    for i in range(len(keywords)):
+    for i, kw in enumerate(keywords):
         if i != 0:
             sql += " AND "
         sql += "post_content LIKE %s AND post_content NOT LIKE %s"  # 添加了一个过滤条件
-    sql += ")"
+    sql += ") ORDER BY post_time DESC LIMIT 20"  # 按照 post_time 遞減排序，並限制結果為最近的 20 筆
 
-
-    # 获取一周前的时间
-    week_ago = datetime.now() - timedelta(weeks=1)
-    week_ago_str = week_ago.strftime('%Y-%m-%d %H:%M:%S')
+    # 獲取今天的日期
+    today = datetime.date.today()
+    today_str = today.strftime('%Y-%m-%d')
 
     # 執行 SQL 查詢
-    cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords) + tuple("%求租%" for _ in keywords))
+    cursor.execute(sql, (today_str, ) + tuple(f"%{kw}%" for kw in keywords) + tuple("%求租%" for _ in keywords))
 
     results = cursor.fetchall()
     print(results)
+    
     # 關閉連線
     cursor.close()
     conn.close()
