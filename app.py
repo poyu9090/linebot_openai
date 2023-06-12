@@ -8,7 +8,7 @@ from linebot.models import (
 )
 from facebook_scraper import get_posts
 import time
-from datetime import datetime, timedelta
+import datetime, timedelta
 import threading
 
 
