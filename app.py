@@ -8,7 +8,7 @@ from linebot.models import (
 )
 from facebook_scraper import get_posts
 import time
-import datetime, timedelta
+from datetime import datetime, timedelta
 import threading
 
 
@@ -156,7 +156,7 @@ def search_post(user_id):
     sql += ") ORDER BY post_time DESC LIMIT 20"  # 按照 post_time 遞減排序，並限制結果為最近的 20 筆
 
     # 獲取一周前的時間
-    week_ago = datetime.datetime.now() - datetime.timedelta(weeks=1)
+    week_ago = datetime.now() - timedelta(weeks=1)
     week_ago_str = week_ago.strftime('%Y-%m-%d %H:%M:%S')
 
     # 執行 SQL 查詢
