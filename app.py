@@ -416,7 +416,30 @@ def handle_message(event):
                line_bot_api.push_message(user_id, TextSendMessage(text=message))
                time.sleep(3)  # 等待一秒後再傳送下一條訊息
             
-           line_bot_api.push_message(user_id,TextSendMessage(text='搞定'))     
+           line_bot_api.push_message(
+                user_id,
+                TemplateSendMessage(
+                    alt_text='Buttons template',
+                    template=ButtonsTemplate(
+                        title='找房條件',
+                        text=f'更新完成！\n\n這是您目前設定的找房條件\n\n',
+                        actions=[
+                            MessageTemplateAction(
+                                label='開始找房',
+                                text='開始找房'
+                            ),
+                            MessageTemplateAction(
+                                label='更新找房條件',
+                                text='更新找房條件'
+                            ),
+                            MessageTemplateAction(
+                                label='聯絡我們',
+                                text='聯絡我們'
+                            )
+                        ]
+                    )
+                )
+            )
     
     else:
         state = check_user_state(user_id)
