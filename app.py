@@ -421,7 +421,7 @@ def handle_message(event):
                    alt_text='Buttons template',
                    template=ButtonsTemplate(
                        title='已經搜尋完成',
-                       text=f'已經回傳完符合關鍵字『{keywords}』的貼文囉！\n\n你可以過一段時間再搜尋一次，或是『更新找房條件』再『開始找房』',
+                       text=f'已經回傳完符合關鍵字的貼文囉！\n\n你可以過一段時間再搜尋一次，或是『更新找房條件』再『開始找房』',
                        actions=[
                            MessageTemplateAction(
                                label='開始找房',
