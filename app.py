@@ -153,7 +153,7 @@ def search_post(user_id):
         if i != 0:
             sql += " AND "
         sql += "post_content LIKE %s AND post_content NOT LIKE %s"  # 添加了一个过滤条件
-    sql += ") ORDER BY post_time DESC LIMIT 3"  # 按照 post_time 遞減排序，並限制結果為最近的 20 筆
+    sql += ") ORDER BY post_time DESC LIMIT 20"  # 按照 post_time 遞減排序，並限制結果為最近的 20 筆
     
     # 獲取一周前的時間
     week_ago = datetime.now() - timedelta(weeks=1)
@@ -421,8 +421,8 @@ def handle_message(event):
                 TemplateSendMessage(
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
-                        title='找房條件',
-                        text=f'更新完成！\n\n這是您目前設定的找房條件\n\n',
+                        title='已經查詢完成囉！',
+                        text=f'以上是目前符合的貼文，建議您可以稍等貼文更新，或是更換關鍵字查詢喔',
                         actions=[
                             MessageTemplateAction(
                                 label='開始找房',
