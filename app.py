@@ -153,7 +153,7 @@ def search_post(user_id):
         if i != 0:
             sql += " AND "
         sql += "post_content LIKE %s AND post_content NOT LIKE %s"  # 添加了一个过滤条件
-    sql += ")"
+    sql += ") ORDER BY post_time DESC LIMIT 3"  # 按照 post_time 遞減排序，並限制結果為最近的 20 筆
     
     # 獲取一周前的時間
     week_ago = datetime.now() - timedelta(weeks=1)
@@ -415,30 +415,8 @@ def handle_message(event):
                message = f"貼文時間：{result[2]}\n貼文連結：{result[1]}\n貼文內容：{result[0]}"
                line_bot_api.push_message(user_id, TextSendMessage(text=message))
                time.sleep(3)  # 等待一秒後再傳送下一條訊息
-           line_bot_api.push_message(
-               user_id,
-               TemplateSendMessage(
-                   alt_text='Buttons template',
-                   template=ButtonsTemplate(
-                       title='已經搜尋完成',
-                       text=f'已經回傳完符合關鍵字的貼文囉！\n\n你可以過一段時間再搜尋一次，或是『更新找房條件』再『開始找房』',
-                       actions=[
-                           MessageTemplateAction(
-                               label='開始找房',
-                               text='開始找房'
-                           ),
-                           MessageTemplateAction(
-                               label='更新找房條件',
-                               text='更新找房條件'
-                           ),
-                           MessageTemplateAction(
-                               label='聯絡我們',
-                               text='聯絡我們'
-                           )
-                       ]
-                   )
-               )
-           )     
+            
+           line_bot_api.push_message(user_id,TextSendMessage(text='搞定'))     
     
     else:
         state = check_user_state(user_id)
