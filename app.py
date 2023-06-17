@@ -385,7 +385,7 @@ def handle_message(event):
         
     elif message == "開始找房":
        keywords = check_user_keywords(user_id)
-       print(f'開始找房的關鍵字：{keyowrds}')
+       print(f'開始找房的關鍵字：{keywords}')
        results = search_post(user_id)  # 將 search_post 函數的返回值指派給 results 變數
        if not results:
            line_bot_api.reply_message(
