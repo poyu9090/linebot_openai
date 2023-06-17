@@ -164,7 +164,7 @@ def search_post(user_id):
     cursor.execute(sql, (week_ago_str, ) + tuple(f"%{kw}%" for kw in keywords) + tuple("%求租%" for _ in keywords))
 
     results = cursor.fetchall()
-    #print(results)
+    print(results)
     
     # 關閉連線
     cursor.close()
