@@ -177,11 +177,6 @@ def search_post(user_id):
 
     return results
     
-    # 關閉連線
-    cursor.close()
-    conn.close()
-
-    return results
 
 # 讀取已紀錄的 post_id
 def get_recorded_post_ids():
