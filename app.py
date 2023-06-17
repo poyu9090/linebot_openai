@@ -139,10 +139,11 @@ def save_user_id(user_id):
     
 def search_post(user_id):
     # 獲取使用者的關鍵字列表
-    keywords = check_user_keywords(user_id)
-    keywords = keywords.split(',')  # 將關鍵字轉換為列表
-    print(f'關鍵字{keywords}')
-
+    #keywords = check_user_keywords(user_id)
+    #keywords = keywords.split(',')  # 將關鍵字轉換為列表
+    #print(f'關鍵字{keywords}')
+    keywords=['大安','套房']
+    
     # 連接到資料庫
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
